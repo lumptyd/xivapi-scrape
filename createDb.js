@@ -22,12 +22,14 @@ const pathAppend = process.cwd() + '/data/images';
 const convertedPath = process.cwd() + '/data/skillDb.json';
 
 (async () => {
+  const excludedJobs = ['ALC', 'BLU', 'BSM', 'BTN', 'CRP', 'CUL', 'FSH', 'GSM', 'LTW', 'MIN', 'WVR', 'ARM'];
   const jobSpecificSkills = skills.filter(sk => {
     return sk.ClassJobCategory
       && !sk.IsPvP
       && sk.ClassJobCategory.Name !== 'All Classes'
       && sk.ClassJobCategory.Name !== 'Disciple of the Land'
       && sk.ClassJobCategory.Name !== 'Disciple of the Hand'
+      && !(sk.ClassJobCategory.Name.length === 3 && excludedJobs.includes(sk.ClassJobCategory.Name))
       && !(sk.ClassJobCategory.Name.split(' ').length > 3 && sk.IsRoleAction !== 1);
   });
 
@@ -35,6 +37,7 @@ const convertedPath = process.cwd() + '/data/skillDb.json';
   const convertedResults = [];
 
   console.log('Parsing skills from json. Downloading and converting:', jobSpecificSkills.length);
+
   for (let i = 0; i < jobSpecificSkills.length; i++) {
     const skill = jobSpecificSkills[i];
     const iconUrl = apiUrl + skill.IconHD;
@@ -42,7 +45,7 @@ const convertedPath = process.cwd() + '/data/skillDb.json';
     const mapped = {
       name: skill.Name,
       id: skill.ID.toString(16).toLowerCase(),
-      job: skill.ClassJobCategory.Name.split(' '),
+      job: skill.ClassJobCategory.Name.split(' ').filter(name => !excludedJobs.includes(name)),
       isOGCD: skill.ActionCategory.ID === 4,
       timer: skill['Cast100ms'] * 100,
       cooldown: skill['Recast100ms'] * 100,
@@ -51,7 +54,7 @@ const convertedPath = process.cwd() + '/data/skillDb.json';
       stocks: Math.max(1, skill.MaxCharges),
       range: Number(skill.Range),
       preservesCombo: skill.PreservesCombo > 0,
-      requiresCombo: skill.ActionCombo !== null,
+      combos: skill.ActionCombo !== null,
       comboSkillId: skill.ActionCombo?.ID.toString(16)
     };
 

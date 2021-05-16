@@ -70,13 +70,6 @@ async function scrapeAction(api, query) {
                   lte: "0"
                 }
               }
-            },
-            {
-              range: {
-                'IsPlayerAction': {
-                  gte: "1"
-                }
-              }
             }
           ],
           must: [

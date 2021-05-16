@@ -24,6 +24,7 @@ const convertedPath = process.cwd() + '/data/skillDb.json';
 (async () => {
   const jobSpecificSkills = skills.filter(sk => {
     return sk.ClassJobCategory
+      && !sk.IsPvP
       && sk.ClassJobCategory.Name !== 'All Classes'
       && sk.ClassJobCategory.Name !== 'Disciple of the Land'
       && sk.ClassJobCategory.Name !== 'Disciple of the Hand'
@@ -48,7 +49,7 @@ const convertedPath = process.cwd() + '/data/skillDb.json';
       type: skill.ActionCategory.ID,
       requirements: [],
       stocks: Math.max(1, skill.MaxCharges),
-      range: skill.Range,
+      range: Number(skill.Range),
       preservesCombo: skill.PreservesCombo > 0,
       requiresCombo: skill.ActionCombo !== null,
       comboSkillId: skill.ActionCombo?.ID.toString(16)

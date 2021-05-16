@@ -43,7 +43,7 @@ async function scrapeAction(api, query) {
 
   const skillQuery = {
     indexes: 'action',
-    columns: 'ID,Url,ActionCategory,ActionCombo,ClassJobCategory,Icon,IconHD,IsRoleAction,MaxCharges,Name,PreservesCombo,PrimaryCostType,PrimaryCostValue,Range,Recast100ms,SecondaryCostType,SecondaryCostValue,StatusGainSelf,StatusGainSelfTarget,StatusGainSelfTargetId,CastType,Cast100ms',
+    columns: 'ID,Url,IsPvP,IsPlayerAction,ActionCategory,ActionCombo,ClassJobCategory,Icon,IconHD,IsRoleAction,MaxCharges,Name,PreservesCombo,PrimaryCostType,PrimaryCostValue,Range,Recast100ms,SecondaryCostType,SecondaryCostValue,StatusGainSelf,StatusGainSelfTarget,StatusGainSelfTargetId,CastType,Cast100ms',
     body: {
       from: 0,
       size: 100,
@@ -61,6 +61,20 @@ async function scrapeAction(api, query) {
               range: {
                 'ActionCategory.ID': {
                   lte: "4"
+                }
+              }
+            },
+            {
+              range: {
+                'IsPvP': {
+                  lte: "0"
+                }
+              }
+            },
+            {
+              range: {
+                'IsPlayerAction': {
+                  gte: "1"
                 }
               }
             }
@@ -134,8 +148,8 @@ async function scrapeAction(api, query) {
 
   try {
     skillResults = await scrapeAction(api, skillQuery);
-    statusResults = await scrapeAction(api, statusQuery);
-    itemResults = await scrapeAction(api, itemQuery);
+    //statusResults = await scrapeAction(api, statusQuery);
+    //itemResults = await scrapeAction(api, itemQuery);
   } catch (error) {
     console.error(error);
     return;
@@ -145,8 +159,8 @@ async function scrapeAction(api, query) {
   try {
     fs.mkdirSync(process.cwd() + '/data', { recursive: true });
     fs.writeFileSync(process.cwd() + '/data/skills.json', JSON.stringify(skillResults, null, 2));
-    fs.writeFileSync(process.cwd() + '/data/statuses.json', JSON.stringify(statusResults, null, 2));
-    fs.writeFileSync(process.cwd() + '/data/itemSkills.json', JSON.stringify(itemResults, null, 2));
+    //fs.writeFileSync(process.cwd() + '/data/statuses.json', JSON.stringify(statusResults, null, 2));
+    //fs.writeFileSync(process.cwd() + '/data/itemSkills.json', JSON.stringify(itemResults, null, 2));
 
   } catch (error) {
     console.log(error);

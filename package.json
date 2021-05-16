@@ -1,0 +1,19 @@
+{
+  "name": "xivapi-skill-scrape",
+  "version": "1.0.0",
+  "description": "Scraper for ff14 skill info",
+  "main": "index.js",
+  "scripts": {
+    "start": "node createDb.js",
+    "scrape": "node scrape.js"
+  },
+  "keywords": [
+    "ff14"
+  ],
+  "author": "Leo Carbajal",
+  "license": "ISC",
+  "dependencies": {
+    "@xivapi/js": "^0.3.2",
+    "axios": "^0.21.1"
+  }
+}

@@ -1,12 +1,7 @@
 const xivApi = require('@xivapi/js');
 const fs = require('fs');
 
-const xivKey = process.env.xiv_key;
 
-if (!xivKey) {
-  console.error('No API key present. Make sure to set it as an environment variable: xiv_key');
-  return;
-}
 
 async function sleep(millis) {
   return new Promise(resolve => setTimeout(resolve, millis));
@@ -38,7 +33,7 @@ async function scrapeAction(api, query) {
 
 (async () => {
   const api = new xivApi({
-    private_key: xivKey
+
   });
 
   const skillQuery = {

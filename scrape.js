@@ -1,12 +1,13 @@
 const xivApi = require('@xivapi/js');
 const fs = require('fs');
 
-const xivKey = process.env.xiv_key;
+// const xivKey = process.env.xiv_key; 
+// Per the xivapi-js github, a Private key is no longer needed for API requests using the js/library. 
 
-if (!xivKey) {
-  console.error('No API key present. Make sure to set it as an environment variable: xiv_key');
-  return;
-}
+// if (!xivKey) {
+//  console.error('No API key present. Make sure to set it as an environment variable: xiv_key');
+//  return;
+// }
 
 async function sleep(millis) {
   return new Promise(resolve => setTimeout(resolve, millis));
@@ -38,7 +39,7 @@ async function scrapeAction(api, query) {
 
 (async () => {
   const api = new xivApi({
-    private_key: xivKey
+//    private_key: xivKey  All the notated blocks were removed to facilitate an API call. Feel free to deny it, I just figured it might help those who may not have an API Key.
   });
 
   const skillQuery = {
